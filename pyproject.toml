@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agent-trace"
+name = "semantic-trace"
 version = "0.1.0"
 description = "Semantic tracing primitive for AI agents"
 readme = "README.md"
@@ -16,7 +16,6 @@ keywords = [
     "ai",
     "agents",
     "tracing",
-    "semantic-trace",
     "observability",
     "invariants",
     "replay",

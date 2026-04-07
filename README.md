@@ -1,7 +1,7 @@
 # agent-trace
 
-[![PyPI - Version](https://img.shields.io/pypi/v/agent-trace.svg?logo=pypi&labelColor=555555)](https://pypi.org/project/agent-trace/)
-[![Python - Versions](https://img.shields.io/pypi/pyversions/agent-trace.svg?logo=python&labelColor=555555)](https://pypi.org/project/agent-trace/)
+[![PyPI - Version](https://img.shields.io/pypi/v/semantic-trace.svg?logo=pypi&labelColor=555555)](https://pypi.org/project/semantic-trace/)
+[![Python - Versions](https://img.shields.io/pypi/pyversions/semantic-trace.svg?logo=python&labelColor=555555)](https://pypi.org/project/semantic-trace/)
 [![License - MIT](https://img.shields.io/pypi/l/agent-trace.svg?logo=github&labelColor=555555)](https://github.com/sznmelvin/agent-trace/blob/main/LICENSE)
 [![CI](https://github.com/sznmelvin/agent-trace/actions/workflows/ci.yml/badge.svg)](https://github.com/sznmelvin/agent-trace/actions/workflows/ci.yml)
 
@@ -27,15 +27,15 @@ When the agent runs, those invariants travel with the trace. Later, you replay t
 ## Installation
 
 ```bash
-pip install agent-trace
+pip install semantic-trace
 ```
 
 With optional integrations:
 
 ```bash
-pip install agent-trace[langgraph]    # LangGraph callback handler
-pip install agent-trace[llm-judge]    # LLM-as-Judge invariant checker
-pip install agent-trace[dev]          # pytest + ruff for contributors
+pip install semantic-trace[langgraph]    # LangGraph callback handler
+pip install semantic-trace[llm-judge]    # LLM-as-Judge invariant checker
+pip install semantic-trace[dev]          # pytest + ruff for contributors
 ```
 
 ## Quick Start
