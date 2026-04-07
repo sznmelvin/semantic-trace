@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-trace"
+version = "0.1.0"
+description = "Semantic tracing primitive for AI agents"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Trace Contributors" },
+]
+keywords = [
+    "ai",
+    "agents",
+    "tracing",
+    "semantic-trace",
+    "observability",
+    "invariants",
+    "replay",
+    "drift-detection",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "pydantic>=2.0",
+    "orjson>=3.0",
+]
+
+[project.optional-dependencies]
+langgraph = ["langgraph>=0.2.0"]
+llm-judge = ["httpx>=0.27"]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+trace = "agent_trace.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sznmelvin/agent-trace"
+Repository = "https://github.com/sznmelvin/agent-trace"
+Documentation = "https://github.com/sznmelvin/agent-trace#readme"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_trace"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/tests", ".github", ".gitignore"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["agent_trace"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
