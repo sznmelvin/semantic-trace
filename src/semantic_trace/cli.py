@@ -102,7 +102,9 @@ def cmd_spans(args: argparse.Namespace) -> None:
 
     for span in trace.spans:
         if span.duration_ms is not None:
-            print(f"[{span.action_type.value}] {span.span_id} ({span.duration_ms:.0f}ms)")
+            print(
+                f"[{span.action_type.value}] {span.span_id} ({span.duration_ms:.0f}ms)"
+            )
         else:
             print(f"[{span.action_type.value}] {span.span_id}")
         if span.invariant_results:
