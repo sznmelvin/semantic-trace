@@ -209,41 +209,94 @@ class ReplayReport:
         return passed / self.total_invariants
 
     def summary(self) -> str:
-        """Return a human-readable summary string."""
-        lines = [
-            f"Replay Report: {self.agent_name}",
-            f"  Trace: {self.trace_id}",
-            f"  File: {self.trace_file}",
-            f"  Spans: {self.total_spans}",
-            f"  Invariants checked: {self.total_invariants}",
-            f"  Pass rate: {self.pass_rate:.0%}",
-        ]
-        if self.structural_errors:
-            lines.append(f"  Structural errors: {len(self.structural_errors)}")
-        if self.violations:
-            lines.append(f"  Violations: {len(self.violations)}")
+        """Return a human-readable summary with boxed layout."""
+        width = 52
+        border_h = "─" * width
+        border_v = "│"
+
+        pct = int(self.pass_rate * 100)
+        if self.is_clean:
+            status = "ALL CLEAR"
+            status_prefix = ""
         else:
-            lines.append("  Status: ALL CLEAR")
+            status = f"{len(self.violations)} VIOLATIONS"
+            status_prefix = "✗ "
+
+        trace_id = str(self.trace_id)[:36]
+        file_name = self.file_basename[:36]
+
+        agent_name = f"Replay Report: {self.agent_name}"
+        agent_pad = width - len(agent_name) - 2
+
+        trace_line = f"Trace ID   : {trace_id}"
+        trace_pad = width - len(trace_line) - 2
+
+        file_line = f"File       : {file_name}"
+        file_pad = width - len(file_line) - 2
+
+        spans_line = f"Spans      : {self.total_spans}"
+        spans_pad = width - len(spans_line) - 2
+
+        inv_line = f"Invariants : {self.total_invariants} checked"
+        inv_pad = width - len(inv_line) - 2
+
+        status_line = f"Status     : {status_prefix}{status}"
+        status_pad = width - len(status_line) - 2
+
+        pass_line = f"Pass rate  : {pct}%"
+        pass_pad = width - len(pass_line) - 2
+
+        lines = [
+            f"┌{border_h}┐",
+            f"{border_v} {agent_name}{' ' * agent_pad} {border_v}",
+            f"├{border_h}┤",
+            f"{border_v} {trace_line}{' ' * trace_pad} {border_v}",
+            f"{border_v} {file_line}{' ' * file_pad} {border_v}",
+            f"{border_v} {spans_line}{' ' * spans_pad} {border_v}",
+            f"{border_v} {inv_line}{' ' * inv_pad} {border_v}",
+            f"├{border_h}┤",
+            f"{border_v} {status_line}{' ' * status_pad} {border_v}",
+            f"{border_v} {pass_line}{' ' * pass_pad} {border_v}",
+            f"└{border_h}┘",
+        ]
+
         return "\n".join(lines)
 
+    @property
+    def file_basename(self) -> str:
+        """Return just the filename without full path."""
+        if not self.trace_file:
+            return "N/A"
+        import os
+
+        return os.path.basename(self.trace_file)
+
     def print_violations(self) -> None:
-        """Print all violations and structural errors to stdout."""
+        """Print all violations with helpful context."""
         if not self.violations and not self.structural_errors:
-            print("No violations found.")
             return
 
         if self.structural_errors:
             print("Structural errors:")
             for err in self.structural_errors:
                 print(f"  - {err}")
+            print()
 
         if self.violations:
-            print("Invariant violations:")
+            print("Invariant Violations:")
+            print("─" * 52)
+
             for v in self.violations:
-                print(
-                    f"  Span {v.span_id}: invariant {v.invariant_id} "
-                    f"(expected>={v.expected_score:.2f}, got {v.actual_score:.2f})"
+                span_short = _shorten_uuid(v.span_id)
+                msg = _format_violation_message(
+                    v.invariant_id,
+                    v.expected_score,
+                    v.actual_score,
                 )
+                print(
+                    f"✗ {v.invariant_id:<14} → Span {span_short} ({v.actual_score:.2f} / {v.expected_score:.2f})"
+                )
+                print(f"  {msg}")
 
 
 class Trace:
@@ -399,3 +452,51 @@ class Trace:
         write_metadata_to_jsonl(path, self._model)
         for span in self._model.spans:
             write_span_to_jsonl(path, span)
+
+
+def _shorten_uuid(uuid_str: str, prefix_len: int = 8) -> str:
+    """Shorten UUID for display, showing only first few characters."""
+    if len(uuid_str) <= 12:
+        return uuid_str
+    return uuid_str[:prefix_len] + "..."
+
+
+def _format_violation_message(
+    invariant_id: str,
+    expected: float,
+    actual: float,
+) -> str:
+    """Generate human-readable violation message based on invariant ID patterns."""
+    invariant_id_lower = invariant_id.lower()
+
+    if "summary" in invariant_id_lower:
+        if actual == 0.0:
+            return "Output did not contain any summary section"
+        return "Summary section failed validation"
+
+    if "citation" in invariant_id_lower or "reference" in invariant_id_lower:
+        if actual == 0.0:
+            return "No citations or references found in output"
+        return "Citations failed validation"
+
+    if "metadata" in invariant_id_lower:
+        if actual == 0.0:
+            return "Missing metadata field in output"
+        return "Metadata validation failed"
+
+    if "schema" in invariant_id_lower:
+        return "Output did not match expected schema"
+
+    if "hallucination" in invariant_id_lower:
+        if actual == 0.0:
+            return "Potential hallucination detected in output"
+        return "Hallucination check failed"
+
+    if "format" in invariant_id_lower:
+        if actual == 0.0:
+            return "Output format did not match requirements"
+        return "Format validation failed"
+
+    if actual == 0.0:
+        return "Invariant check failed - expected pattern not found"
+    return f"Invariant {invariant_id} returned score {actual:.2f}"
