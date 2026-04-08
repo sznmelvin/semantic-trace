@@ -104,7 +104,7 @@ class TestCLISpans:
     def test_spans_command(self, valid_trace: Path):
         result = run_cli(["spans", str(valid_trace)])
         assert result.returncode == 0
-        assert "LLM_CALL" in result.stdout
+        assert "llm_call" in result.stdout
 
     def test_spans_json(self, valid_trace: Path):
         result = run_cli(["spans", str(valid_trace), "--json"])
