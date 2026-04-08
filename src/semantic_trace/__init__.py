@@ -1,9 +1,9 @@
-"""agent-trace: Semantic tracing primitive for AI agents.
+"""semantic-trace: Semantic tracing primitive for AI agents.
 
 Minimal, composable, and zero-bloat by design.
 
 Quick start:
-    from agent_trace import Trace, IntentInvariant, InvariantType, semantic_replay
+    from semantic_trace import Trace, IntentInvariant, InvariantType, semantic_replay
 
     invariants = [
         IntentInvariant(
@@ -22,7 +22,7 @@ Quick start:
     print(report.summary())
 """
 
-from agent_trace.core.schema import (
+from semantic_trace.core.schema import (
     ActionType,
     IntentInvariant,
     InvariantResult,
@@ -33,19 +33,19 @@ from agent_trace.core.schema import (
     TraceMetadata,
     TraceModel,
 )
-from agent_trace.core.serializer import (
+from semantic_trace.core.serializer import (
     read_trace_from_jsonl,
     write_metadata_to_jsonl,
     write_span_to_jsonl,
 )
-from agent_trace.engine.invariants import (
+from semantic_trace.engine.invariants import (
     BaseInvariantChecker,
     InvariantViolation,
     LLMAsJudgeChecker,
     SchemaInvariantChecker,
     SubstringInvariantChecker,
 )
-from agent_trace.engine.replay import (
+from semantic_trace.engine.replay import (
     mechanical_replay,
     semantic_replay,
     validate_trace,

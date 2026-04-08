@@ -17,8 +17,8 @@ import json
 import sys
 from pathlib import Path
 
-from agent_trace.core.serializer import read_trace_from_jsonl
-from agent_trace.engine.replay import mechanical_replay, validate_trace
+from semantic_trace.core.serializer import read_trace_from_jsonl
+from semantic_trace.engine.replay import mechanical_replay, validate_trace
 
 
 def cmd_info(args: argparse.Namespace) -> None:
@@ -120,7 +120,7 @@ def main() -> None:
     parser.add_argument(
         "--version",
         action="version",
-        version="agent-trace 0.1.0",
+        version="semantic-trace 0.1.0",
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")

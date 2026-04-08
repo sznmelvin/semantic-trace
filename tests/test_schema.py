@@ -1,4 +1,4 @@
-"""Tests for agent-trace schema models."""
+"""Tests for semantic-trace schema models."""
 
 import uuid
 from datetime import datetime, timezone
@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import pytest
 from pydantic import ValidationError
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantResult,
@@ -16,7 +16,7 @@ from agent_trace import (
     TraceMetadata,
     TraceModel,
 )
-from agent_trace.engine.invariants import InvariantViolation
+from semantic_trace.engine.invariants import InvariantViolation
 
 
 class TestInvariantType:

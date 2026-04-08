@@ -9,7 +9,7 @@ from typing import Any
 
 import orjson
 
-from agent_trace.core.schema import Span, TraceMetadata, TraceModel
+from semantic_trace.core.schema import Span, TraceMetadata, TraceModel
 
 logger = logging.getLogger(__name__)
 

@@ -3,7 +3,7 @@
 import uuid
 from pathlib import Path
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantType,
@@ -11,8 +11,12 @@ from agent_trace import (
     TraceMetadata,
     TraceModel,
 )
-from agent_trace.core.serializer import write_metadata_to_jsonl, write_span_to_jsonl
-from agent_trace.engine.replay import mechanical_replay, semantic_replay, validate_trace
+from semantic_trace.core.serializer import write_metadata_to_jsonl, write_span_to_jsonl
+from semantic_trace.engine.replay import (
+    mechanical_replay,
+    semantic_replay,
+    validate_trace,
+)
 
 
 def write_test_trace(

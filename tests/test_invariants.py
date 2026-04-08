@@ -2,8 +2,8 @@
 
 import pytest
 
-from agent_trace import ActionType, IntentInvariant, InvariantType, Span
-from agent_trace.engine.invariants import (
+from semantic_trace import ActionType, IntentInvariant, InvariantType, Span
+from semantic_trace.engine.invariants import (
     BaseInvariantChecker,
     SchemaInvariantChecker,
     SubstringInvariantChecker,

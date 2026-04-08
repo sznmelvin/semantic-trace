@@ -1,6 +1,6 @@
 """Drift detection demo: catching agent regressions with semantic replay.
 
-This demo shows the core value proposition of agent-trace:
+This demo shows the core value proposition of semantic-trace:
 1. Capture a "golden" trace when your agent works correctly
 2. Simulate a model/prompt change that degrades output quality
 3. Replay the golden trace against the new output to catch the regression
@@ -8,7 +8,7 @@ This demo shows the core value proposition of agent-trace:
 Run: python examples/drift_detection_demo.py
 """
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantType,
@@ -107,7 +107,7 @@ def main() -> None:
     print(f"Violations detected: {len(report.violations)}/{report.total_invariants}")
     print(f"Pass rate: {report.pass_rate:.0%}")
     print(
-        "\nThis is the power of agent-trace: you caught the regression"
+        "\nThis is the power of semantic-trace: you caught the regression"
         " without manually inspecting output."
     )
 

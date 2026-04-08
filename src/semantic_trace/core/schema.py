@@ -1,4 +1,4 @@
-"""Pydantic v2 data models and Trace context manager for agent-trace.
+"""Pydantic v2 data models and Trace context manager for semantic-trace.
 
 All models use strict typing and Pydantic v2 validation. No mutable defaults.
 """
@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Any
 from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
-    from agent_trace.engine.invariants import InvariantViolation
+    from semantic_trace.engine.invariants import InvariantViolation
 
 
 class InvariantType(str, Enum):
@@ -314,7 +314,7 @@ class Trace:
             raise RuntimeError("Trace is already active. Create a new instance.")
         self._active = True
         if self._output_file:
-            from agent_trace.core.serializer import write_metadata_to_jsonl
+            from semantic_trace.core.serializer import write_metadata_to_jsonl
 
             write_metadata_to_jsonl(self._output_file, self._model)
         return self
@@ -323,7 +323,7 @@ class Trace:
         self._active = False
         self._model.metadata.end_time = datetime.now(timezone.utc)
         if self._output_file:
-            from agent_trace.core.serializer import write_metadata_to_jsonl
+            from semantic_trace.core.serializer import write_metadata_to_jsonl
 
             write_metadata_to_jsonl(self._output_file, self._model)
         return False
@@ -373,7 +373,7 @@ class Trace:
         span.attached_invariants.extend(self._default_invariants)
         self._model.spans.append(span)
         if self._active and self._output_file:
-            from agent_trace.core.serializer import write_span_to_jsonl
+            from semantic_trace.core.serializer import write_span_to_jsonl
 
             write_span_to_jsonl(self._output_file, span)
 
@@ -386,7 +386,7 @@ class Trace:
         Raises:
             ValueError: If no output file is specified.
         """
-        from agent_trace.core.serializer import (
+        from semantic_trace.core.serializer import (
             write_metadata_to_jsonl,
             write_span_to_jsonl,
         )

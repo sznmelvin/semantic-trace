@@ -1,9 +1,9 @@
-# agent-trace
+# semantic-trace
 
 [![PyPI - Version](https://img.shields.io/pypi/v/semantic-trace.svg?logo=pypi&labelColor=555555)](https://pypi.org/project/semantic-trace/)
 [![Python - Versions](https://img.shields.io/pypi/pyversions/semantic-trace.svg?logo=python&labelColor=555555)](https://pypi.org/project/semantic-trace/)
-[![License - MIT](https://img.shields.io/pypi/l/agent-trace.svg?logo=github&labelColor=555555)](https://github.com/sznmelvin/agent-trace/blob/main/LICENSE)
-[![CI](https://github.com/sznmelvin/agent-trace/actions/workflows/ci.yml/badge.svg)](https://github.com/sznmelvin/agent-trace/actions/workflows/ci.yml)
+[![License - MIT](https://img.shields.io/pypi/l/semantic-trace.svg?logo=github&labelColor=555555)](https://github.com/sznmelvin/semantic-trace/blob/main/LICENSE)
+[![CI](https://github.com/sznmelvin/semantic-trace/actions/workflows/ci.yml/badge.svg)](https://github.com/sznmelvin/semantic-trace/actions/workflows/ci.yml)
 
 **Semantic tracing primitive for AI agents.**
 
@@ -15,14 +15,14 @@ Intent-anchored execution. Deterministic replay. Runtime drift detection.
 
 Existing observability tools log **what** happened: every keystroke, token, and HTTP request. But they don't capture **intent**.
 
-agent-trace flips this. Instead of dumping raw logs, you attach *invariants* to your agent's actions:
+semantic-trace flips this. Instead of dumping raw logs, you attach *invariants* to your agent's actions:
 
 > "This LLM call should return a JSON object with `action` and `params` keys."
 > "This tool output must contain the substring `success`."
 
 When the agent runs, those invariants travel with the trace. Later, you replay the trace and check whether every invariant still holds. If a model upgrade, prompt change, or tool regression breaks an invariant, you catch it immediately.
 
-**agent-trace is a primitive, not a platform.** No web servers. No databases. No UI frameworks. Just strictly-typed Python data structures and JSONL files you can version-control, diff, and grep.
+**semantic-trace is a primitive, not a platform.** No web servers. No databases. No UI frameworks. Just strictly-typed Python data structures and JSONL files you can version-control, diff, and grep.
 
 ## Installation
 
@@ -41,7 +41,7 @@ pip install semantic-trace[dev]          # pytest + ruff for contributors
 ## Quick Start
 
 ```python
-from agent_trace import Trace, IntentInvariant, InvariantType, semantic_replay
+from semantic_trace import Trace, IntentInvariant, InvariantType, semantic_replay
 
 # 1. Define invariants: what your agent's output MUST satisfy
 invariants = [
@@ -70,7 +70,7 @@ with Trace(
     # Your agent code here (LangGraph, CrewAI, custom, etc.)
     # Spans are captured automatically via integrations
     # or manually:
-    from agent_trace import Span, ActionType
+    from semantic_trace import Span, ActionType
 
     trace.add_span(Span(
         trace_id=trace.trace_id,
@@ -86,9 +86,9 @@ print(report.summary())
 report.print_violations()
 ```
 
-## Why agent-trace?
+## Why semantic-trace?
 
-| Problem | agent-trace solution |
+| Problem | semantic-trace solution |
 |---------|---------------------|
 | Agent behavior changes silently after a model upgrade | Replay old traces with invariants to catch regressions |
 | No way to codify "what good looks like" for agent output | Attach invariants as executable specifications |
@@ -126,8 +126,8 @@ trace replay traces/run.jsonl --json
 ## Architecture
 
 ```
-agent-trace/
-├── src/agent_trace/
+semantic-trace/
+├── src/semantic_trace/
 │   ├── __init__.py              # Public API re-exports
 │   ├── cli.py                   # `trace` CLI entry point
 │   ├── core/
@@ -158,7 +158,7 @@ agent-trace/
 Write your own checker by subclassing `BaseInvariantChecker`:
 
 ```python
-from agent_trace import BaseInvariantChecker, Span, IntentInvariant
+from semantic_trace import BaseInvariantChecker, Span, IntentInvariant
 
 class EmbeddingSimilarityChecker(BaseInvariantChecker):
     def check(self, span: Span, invariant: IntentInvariant) -> float:
@@ -171,10 +171,10 @@ class EmbeddingSimilarityChecker(BaseInvariantChecker):
 ### LLM-as-Judge
 
 Use an LLM to semantically evaluate whether a span's output satisfies an invariant.
-Requires `pip install agent-trace[llm-judge]`.
+Requires `pip install semantic-trace[llm-judge]`.
 
 ```python
-from agent_trace import IntentInvariant, InvariantType
+from semantic_trace import IntentInvariant, InvariantType
 
 invariant = IntentInvariant(
     id="quality-check",
@@ -195,7 +195,7 @@ it never crashes your replay pipeline.
 ### LangGraph Integration
 
 ```python
-from agent_trace.integrations.langgraph import TraceCallbackHandler
+from semantic_trace.integrations.langgraph import TraceCallbackHandler
 
 handler = TraceCallbackHandler(
     trace_file="traces/run.jsonl",

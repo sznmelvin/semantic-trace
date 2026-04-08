@@ -1,10 +1,10 @@
-"""Replay engines and invariant checkers for agent-trace.
+"""Replay engines and invariant checkers for semantic-trace.
 
 Provides mechanical validation, semantic replay, and extensible
 invariant checker implementations.
 """
 
-from agent_trace.engine.invariants import (
+from semantic_trace.engine.invariants import (
     BaseInvariantChecker,
     InvariantViolation,
     LLMAsJudgeChecker,
@@ -12,7 +12,7 @@ from agent_trace.engine.invariants import (
     SubstringInvariantChecker,
     get_checker,
 )
-from agent_trace.engine.replay import (
+from semantic_trace.engine.replay import (
     mechanical_replay,
     semantic_replay,
     validate_trace,

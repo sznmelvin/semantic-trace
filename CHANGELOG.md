@@ -29,5 +29,5 @@ Initial release.
 - Comprehensive test suite (71 tests)
 - GitHub Actions CI workflow
 
-[Unreleased]: https://github.com/sznmelvin/agent-trace/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/sznmelvin/agent-trace/releases/tag/v0.1.0
+[Unreleased]: https://github.com/sznmelvin/semantic-trace/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/sznmelvin/semantic-trace/releases/tag/v0.1.0

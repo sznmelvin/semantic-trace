@@ -12,7 +12,7 @@ from typing import Any
 import orjson
 from pydantic import TypeAdapter, ValidationError
 
-from agent_trace.core.schema import IntentInvariant, InvariantType, Span
+from semantic_trace.core.schema import IntentInvariant, InvariantType, Span
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ class SubstringInvariantChecker(BaseInvariantChecker):
 
 LLM_JUDGE_SYSTEM_PROMPT = """\
 You are TraceJudge: an extremely strict, objective, and consistent LLM-as-Judge for \
-the open-source agent tracing library "agent-trace".
+the open-source agent tracing library "semantic-trace".
 
 Your ONLY job is to evaluate whether a given agent span satisfies ONE specific invariant.
 
@@ -147,7 +147,7 @@ Does the output satisfy the invariant above?
 class LLMAsJudgeChecker(BaseInvariantChecker):
     """Evaluates invariants using an LLM via an OpenAI-compatible API.
 
-    Requires ``httpx`` (install with ``pip install agent-trace[llm-judge]``).
+    Requires ``httpx`` (install with ``pip install semantic-trace[llm-judge]``).
     Configuration is passed through ``invariant.config``:
 
     - ``api_key`` (str): API key for the LLM provider.
@@ -174,7 +174,7 @@ class LLMAsJudgeChecker(BaseInvariantChecker):
         if not _HTTPX_AVAILABLE:
             logger.error(
                 "LLMAsJudgeChecker requires httpx. "
-                "Install with: pip install agent-trace[llm-judge]"
+                "Install with: pip install semantic-trace[llm-judge]"
             )
             return 0.0
 
@@ -238,8 +238,8 @@ class LLMAsJudgeChecker(BaseInvariantChecker):
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/sznmelvin/agent-trace",
-            "X-Title": "agent-trace",
+            "HTTP-Referer": "https://github.com/sznmelvin/semantic-trace",
+            "X-Title": "semantic-trace",
         }
 
         with httpx.Client(timeout=30.0) as client:

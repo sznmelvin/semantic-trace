@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from agent_trace.core.schema import (
+from semantic_trace.core.schema import (
     IntentInvariant,
     InvariantResult,
     ReplayReport,
 )
-from agent_trace.core.serializer import read_trace_from_jsonl
-from agent_trace.engine.invariants import (
+from semantic_trace.core.serializer import read_trace_from_jsonl
+from semantic_trace.engine.invariants import (
     BaseInvariantChecker,
     InvariantViolation,
     get_checker,

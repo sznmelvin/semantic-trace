@@ -1,7 +1,7 @@
 """LangGraph callback handler for real-time trace streaming.
 
 This module is lazily loaded -- it will only import langgraph when the
-class is actually instantiated. Install with ``pip install agent-trace[langgraph]``.
+class is actually instantiated. Install with ``pip install semantic-trace[langgraph]``.
 """
 
 from __future__ import annotations
@@ -11,8 +11,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from agent_trace.core.schema import ActionType, IntentInvariant, Span
-from agent_trace.core.serializer import write_metadata_to_jsonl, write_span_to_jsonl
+from semantic_trace.core.schema import ActionType, IntentInvariant, Span
+from semantic_trace.core.serializer import write_metadata_to_jsonl, write_span_to_jsonl
 
 try:
     from langgraph.callbacks.base import BaseCallbackHandler
@@ -90,12 +90,12 @@ class TraceCallbackHandler(BaseCallbackHandler):
         if not _LANGGRAPH_AVAILABLE:
             raise ImportError(
                 "langgraph is required to use TraceCallbackHandler. "
-                "Install it with: pip install agent-trace[langgraph]"
+                "Install it with: pip install semantic-trace[langgraph]"
             )
 
         super().__init__()
 
-        from agent_trace.core.schema import TraceMetadata, TraceModel
+        from semantic_trace.core.schema import TraceMetadata, TraceModel
 
         self.trace_file = Path(trace_file)
         self._trace_id = trace_id or uuid.uuid4()

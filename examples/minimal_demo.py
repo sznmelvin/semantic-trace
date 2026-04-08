@@ -1,4 +1,4 @@
-"""Minimal demo showing the full agent-trace workflow.
+"""Minimal demo showing the full semantic-trace workflow.
 
 Demonstrates:
 1. Defining invariants (intent assertions)
@@ -9,7 +9,7 @@ Demonstrates:
 Run: python examples/minimal_demo.py
 """
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantType,

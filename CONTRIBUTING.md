@@ -1,20 +1,20 @@
-# Contributing to agent-trace
+# Contributing to semantic-trace
 
-Thank you for your interest in contributing! agent-trace is built on the belief that AI agent observability should be simple, composable, and open. Every contribution, whether a typo fix, a new checker, or a full integration, is welcome.
+Thank you for your interest in contributing! semantic-trace is built on the belief that AI agent observability should be simple, composable, and open. Every contribution, whether a typo fix, a new checker, or a full integration, is welcome.
 
 ## How to Contribute
 
 ### Reporting Bugs
 
-- Check the [issue tracker](https://github.com/sznmelvin/agent-trace/issues) to see if it's already reported.
+- Check the [issue tracker](https://github.com/sznmelvin/semantic-trace/issues) to see if it's already reported.
 - Open a new issue with a clear title, description, and minimal reproduction if possible.
-- Include your Python version and `agent-trace` version.
+- Include your Python version and `semantic-trace` version.
 
 ### Suggesting Features
 
 - Open an issue with the label `enhancement`.
 - Describe the problem you're trying to solve, not just the solution you have in mind.
-- Keep scope focused; agent-trace values minimalism.
+- Keep scope focused; semantic-trace values minimalism.
 
 ### Pull Requests
 
@@ -27,8 +27,8 @@ Thank you for your interest in contributing! agent-trace is built on the belief 
 4. **Add tests** for new functionality. We use pytest.
 5. **Run the checks**:
    ```bash
-   ruff check src/agent_trace/ tests/ examples/
-   ruff format src/agent_trace/ tests/ examples/
+    ruff check src/semantic_trace/ tests/ examples/
+    ruff format src/semantic_trace/ tests/ examples/
    pytest tests/ -v
    ```
 6. **Open a PR** with a clear description of what and why.
@@ -53,8 +53,8 @@ Thank you for your interest in contributing! agent-trace is built on the belief 
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/agent-trace.git
-cd agent-trace
+git clone https://github.com/YOUR_USERNAME/semantic-trace.git
+cd semantic-trace
 
 # Create a virtual environment
 python -m venv .venv
@@ -67,16 +67,16 @@ pip install -e ".[dev]"
 pytest tests/ -v
 
 # Run linter
-ruff check src/agent_trace/ tests/ examples/
+ruff check src/semantic_trace/ tests/ examples/
 ```
 
 ## Adding a New Invariant Checker
 
 If you want to contribute a new built-in checker:
 
-1. Add the checker class to `src/agent_trace/engine/invariants.py`.
+1. Add the checker class to `src/semantic_trace/engine/invariants.py`.
 2. Register it in `CHECKER_REGISTRY` with a new `InvariantType` (or reuse an existing one).
-3. Add the type to the `InvariantType` enum in `src/agent_trace/core/schema.py`.
+3. Add the type to the `InvariantType` enum in `src/semantic_trace/core/schema.py`.
 4. Write tests in `tests/test_invariants.py`.
 5. Update the README invariant types table.
 

@@ -6,7 +6,7 @@ from pathlib import Path
 import orjson
 import pytest
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantType,
@@ -14,7 +14,7 @@ from agent_trace import (
     TraceMetadata,
     TraceModel,
 )
-from agent_trace.core.serializer import (
+from semantic_trace.core.serializer import (
     read_trace_from_jsonl,
     write_metadata_to_jsonl,
     write_span_to_jsonl,

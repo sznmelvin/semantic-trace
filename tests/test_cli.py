@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantType,
@@ -14,7 +14,7 @@ from agent_trace import (
     TraceMetadata,
     TraceModel,
 )
-from agent_trace.core.serializer import write_metadata_to_jsonl, write_span_to_jsonl
+from semantic_trace.core.serializer import write_metadata_to_jsonl, write_span_to_jsonl
 
 
 def make_trace_file(path: Path) -> Path:
@@ -48,7 +48,7 @@ def valid_trace(tmp_path: Path) -> Path:
 
 def run_cli(args: list[str]) -> subprocess.CompletedProcess:
     return subprocess.run(
-        [sys.executable, "-m", "agent_trace.cli", *args],
+        [sys.executable, "-m", "semantic_trace.cli", *args],
         capture_output=True,
         text=True,
     )

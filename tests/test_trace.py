@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agent_trace import (
+from semantic_trace import (
     ActionType,
     IntentInvariant,
     InvariantType,
@@ -13,7 +13,7 @@ from agent_trace import (
     Trace,
     TraceMetadata,
 )
-from agent_trace.core.serializer import read_trace_from_jsonl
+from semantic_trace.core.serializer import read_trace_from_jsonl
 
 
 class TestTraceContextManager:
