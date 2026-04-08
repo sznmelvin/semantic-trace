@@ -108,19 +108,19 @@ report.print_violations()
 
 ```bash
 # Show trace metadata
-trace info traces/run.jsonl
+trace info examples/demo.jsonl
 
 # Structural validation
-trace validate traces/run.jsonl
+trace validate examples/demo.jsonl
 
 # Full semantic replay (mechanical + invariant checks)
-trace replay traces/run.jsonl
+trace replay examples/demo.jsonl
 
 # List all spans with durations
-trace spans traces/run.jsonl
+trace spans examples/demo.jsonl
 
 # Machine-readable JSON output
-trace replay traces/run.jsonl --json
+trace replay examples/demo.jsonl --json
 ```
 
 ## Architecture
