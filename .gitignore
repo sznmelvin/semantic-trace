@@ -40,6 +40,8 @@ dmypy.json
 # Ruff
 .ruff_cache/
 
+DESIGN.md
+
 # Trace output files (uncomment to ignore)
 # traces/
 # *.jsonl

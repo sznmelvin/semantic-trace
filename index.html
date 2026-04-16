@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trace | Semantic tracing primitive for AI agents</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Colors mapped from DESIGN.md */
+            --bg-void: #151413;
+            --text-parchment: #faf9f6;
+            --text-ash: #afaeac;
+            --text-stone: #868584;
+            --surface-earth: #353534;
+            --border-mist: rgba(226, 226, 226, 0.35);
+            --surface-veil: rgba(255, 255, 255, 0.04);
+            
+            /* Typography Scale */
+            --font-family: 'Manrope', 'Matter Regular Placeholder', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Geist Mono', monospace;
+            --spacing-base: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-ash);
+            font-family: var(--font-family);
+            font-weight: 400;
+            line-height: 1.4;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            color: var(--text-parchment);
+            font-weight: 400;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 6vw, 80px);
+            line-height: 1.0;
+            letter-spacing: -2.4px;
+            margin-bottom: 24px;
+        }
+
+        .body-large {
+            font-size: 20px;
+            line-height: 1.4;
+            letter-spacing: -0.2px;
+            color: var(--text-ash);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: clamp(80px, 10vw, 120px) 0;
+        }
+
+        /* Components */
+        .btn-pill {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--surface-earth);
+            color: var(--text-ash);
+            font-weight: 500;
+            font-size: 16px;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-pill:hover {
+            opacity: 0.8;
+        }
+
+        .btn-ghost {
+            color: var(--text-parchment);
+            text-decoration: none;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .btn-ghost::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-ghost:hover::after {
+            opacity: 1;
+        }
+
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            aspect-ratio: 16 / 9;
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-mist);
+            border-radius: 10px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video-placeholder {
+            text-align: center;
+            color: var(--text-stone);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(21, 20, 19, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--surface-veil);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .logo {
+            color: var(--text-parchment);
+            font-size: 20px;
+            text-decoration: none;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-stone);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-parchment);
+        }
+
+        /* Footer */
+        .footer-link {
+            color: var(--text-stone);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--text-parchment);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero p {
+            margin-bottom: 40px;
+        }
+
+        /* Mobile Nav & Footer */
+        @media (max-width: 810px) {
+            .nav-links {
+                display: none;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo">trace</a>
+            <div class="nav-links">
+                <a href="https://github.com/sznmelvin/semantic-trace" class="btn-pill">View GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container" style="padding-top: 140px; padding-bottom: 60px;">
+            <div class="hero">
+                <h1 class="hero-title">Intent-anchored execution for AI agents.</h1>
+                <p class="body-large">
+                    Existing observability tools log what happened. Trace flips this. Attach invariants to your agent's actions and detect runtime drift instantly. Deterministic replay for non-deterministic systems.
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center; align-items: center;">
+                    <button class="btn-pill" id="copy-btn" onclick="copyInstall()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span id="copy-text">pip install semantic-trace</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" style="padding-top: 0; padding-bottom: 80px;">
+            <div class="video-container">
+                <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                    <source src="demo/demo.mp4" type="video/mp4">
+                </video>
+            </div>
+        </section>
+    </main>
+
+    <footer style="border-top: 1px solid var(--surface-veil); padding: 32px 0;">
+        <div class="container footer-content" style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="logo" style="font-size: 16px;">trace</span>
+            <div style="font-size: 14px; display: flex; gap: 24px; color: var(--text-stone);">
+                <a href="https://github.com/sznmelvin/semantic-trace" class="footer-link">GitHub</a>
+                <a href="https://pypi.org/project/semantic-trace/" class="footer-link">PyPI</a>
+                <span>MIT License</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyInstall() {
+            const codeToCopy = "pip install semantic-trace";
+            const btnText = document.getElementById('copy-text');
+            
+            navigator.clipboard.writeText(codeToCopy).then(() => {
+                btnText.textContent = "Copied!";
+                setTimeout(() => {
+                    btnText.textContent = codeToCopy;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
